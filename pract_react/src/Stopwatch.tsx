@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
 
 export const Stopwatch = () => {
@@ -7,15 +7,15 @@ export const Stopwatch = () => {
   const [clockState, setClockState] = useState(false)
   const [time, setTime] = useState(0);
 
-  const idx = useRef(0);
   useEffect(() => {
+    let idx = 0;
     if (clockState) {
-      idx.current = setInterval(() => setTime(prev => prev+1),1000)
+      idx = setTimeout(() => setTime(prev => prev+1),1000)
     }
     return () => {
-      clearInterval(idx.current)
+      clearTimeout(idx)
     }
-  }, [clockState])
+  }, [clockState, time])
   const ss: number = Math.floor(time % 60);
   const mm: number = Math.floor(time / 60);
   const hh: number = Math.floor(time / 3600);
